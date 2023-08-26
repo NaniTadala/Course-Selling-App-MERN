@@ -1,0 +1,138 @@
+a {
+    font-weight: 900;
+    font-size: larger;
+    text-decoration: none;
+    color: black;
+}
+
+.nav-logo:hover {
+    cursor: pointer;
+}
+
+.landing-container {
+    padding: 2rem 10rem;
+    margin-left: 16rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 94vh;
+}
+
+.dashboard-image {
+    width: 50%;
+}
+
+.header  {
+    width: 50%;
+}
+
+.dashboard-title {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1300px) {
+    .landing-container {
+        padding: 2rem 4rem;
+        
+    }
+}
+
+@media (max-width: 800px) {
+    .landing-container {
+        padding: 4rem 2rem;
+        flex-direction: column-reverse;
+        justify-content: center;
+        gap: 5rem;
+    }
+
+    .dashboard-image, .header {
+        width: 100%;
+    }
+}
+
+/* REGISTER PAGE */
+
+.page {
+    display: flex;
+    flex-direction: column;
+    width: 25rem;
+    margin: auto;
+    gap: 2rem;
+}
+
+.page-title {
+    color: #1876D2;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.page-secondary-text {
+    font-size: medium;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.input-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.button {
+    width: 100px;
+}
+
+.page-login {
+    margin-top: 2rem;
+}
+
+
+/* SHOW COURSES */
+
+.courses-main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin: 2rem auto;
+    max-width: 1024px;
+    width: 100%;    
+}
+
+.course-card:hover {
+    cursor: pointer;
+    border: 1px solid #1876D2;
+    color: #1876D2;
+}
+
+.course-image {
+    width: 18rem;
+    height: 10rem;
+    object-fit: cover;
+}
+
+.course-container {
+    padding: 0.7rem;
+}
+
+.course-title {
+    font-size: 1rem;
+}
+
+.course-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
+}
+
+.course-btns {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}

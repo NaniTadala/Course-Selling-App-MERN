@@ -1,0 +1,8 @@
+POST http://localhost:3000/admin/signin
+Content-Type: application/json
+
+{
+    "email": "testuserasd2asd@email.com",
+    "password": "password"
+}
+
