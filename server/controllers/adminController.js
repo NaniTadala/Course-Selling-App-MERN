@@ -25,7 +25,7 @@ const signup = async (req, res) => {
                 id: result._id,
             },
             SECRET_KEY, {
-            expiresIn: "5s"
+            expiresIn: "1h"
         }
         );
         res.status(201).json({
@@ -61,7 +61,7 @@ const signin = async (req, res) => {
                 id: existingUser._id,
             },
             SECRET_KEY, {
-            expiresIn: "5s"
+            expiresIn: "1h"
         }
         );
         res.status(200).json({
