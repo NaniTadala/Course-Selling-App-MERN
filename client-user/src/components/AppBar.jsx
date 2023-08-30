@@ -21,7 +21,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { atom, useRecoilState } from "recoil";
-import { adminState } from "../store/atoms/admin";
+import { userState } from "../store/atoms/user";
 
 const drawerWidth = 240;
 
@@ -77,7 +77,7 @@ const openState = atom({
 
 export default function ButtonAppBar() {
     const theme = useTheme();
-    const [admin, setAdmin] = useRecoilState(adminState);
+    const [user, setUser] = useRecoilState(userState);
     const [open, setOpen] = useRecoilState(openState);
     const navigate = useNavigate();
 
@@ -93,7 +93,7 @@ export default function ButtonAppBar() {
         localStorage.removeItem("token");
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("email");
-        setAdmin({
+        setUser({
             email: "",
             password: "",
             IsLoggedIn: false,
@@ -108,7 +108,7 @@ export default function ButtonAppBar() {
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={admin.isLoggedIn ? handleDrawerOpen() : null}
+                        onClick={user.isLoggedIn ? handleDrawerOpen : null}
                         edge="start"
                         sx={{ mr: 2, ...(open && { display: "none" }) }}
                     >
@@ -130,7 +130,7 @@ export default function ButtonAppBar() {
                         >
                             Coursera
                         </Typography>
-                        {admin.isLoggedIn ? (
+                        {user.isLoggedIn ? (
                             <div>
                                 <Button onClick={handleLogout} color="inherit">
                                     Logout
@@ -169,7 +169,7 @@ export default function ButtonAppBar() {
                 open={open}
             >
                 <DrawerHeader>
-                    {admin.isLoggedIn && (
+                    {user.isLoggedIn && (
                         <List>
                             <ListItem key="name" disablePadding>
                                 <ListItemButton>
@@ -177,8 +177,8 @@ export default function ButtonAppBar() {
                                         <AccountBoxIcon />
                                     </ListItemIcon>
                                     <ListItemText
-                                        primary={admin?.username}
-                                        secondary={admin?.email}
+                                        primary={user?.username}
+                                        secondary={user?.email}
                                     />
                                 </ListItemButton>
                             </ListItem>
@@ -213,13 +213,13 @@ export default function ButtonAppBar() {
                         <ListItemButton
                             onClick={() => {
                                 handleDrawerClose();
-                                navigate("/createCourse");
+                                navigate("/purchasedcourses");
                             }}
                         >
                             <ListItemIcon>
                                 <ShoppingBasketIcon />
                             </ListItemIcon>
-                            <ListItemText primary={"Create Courses"} />
+                            <ListItemText primary={"Purchased Courses"} />
                         </ListItemButton>
                     </ListItem>
                 </List>

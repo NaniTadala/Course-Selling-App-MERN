@@ -1,8 +1,7 @@
-POST http://localhost:3000/admin/signin
+POST http://localhost:3000/user/purchasedcourses/64e976a9b6573e32a1bbecd2
 Content-Type: application/json
 
 {
-    "email": "testuserasd2asd@email.com",
-    "password": "password"
+    "email": "test"
 }
 
