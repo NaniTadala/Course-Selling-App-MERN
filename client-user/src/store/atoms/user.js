@@ -1,8 +1,13 @@
 import { atom } from "recoil";
 
-export const coursesState = atom({
+export const purCoursesState = atom({
     key: "coursesState",
     default: [],
+});
+
+export const openState = atom({
+    key: "openState",
+    default: false,
 });
 
 export const userState = atom({

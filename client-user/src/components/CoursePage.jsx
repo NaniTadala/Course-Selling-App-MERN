@@ -1,13 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import CourseContent from "./CourseContent";
 import "../styles.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { purCoursesState } from "../store/atoms/user";
 
 export default function CoursePage() {
+    const navigate = useNavigate();
     const [course, setCourse] = useState({});
     const { courseId } = useParams();
+    const [purCourses, setPurCourses] = useRecoilState(purCoursesState);
+    const [isPurchased, setIsPurchased] = useState(false);
 
     useEffect(() => {
         axios
@@ -20,7 +25,21 @@ export default function CoursePage() {
                 setCourse(res.data.course);
             })
             .catch((err) => console.log(err));
-    }, []);
+
+        axios
+            .get("http://localhost:3000/user/purchasedcourses", {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+            })
+            .then((res) => {
+                setPurCourses(res.data.purchasedCourses);
+                setIsPurchased(
+                    purCourses.some((item) => item._id === courseId)
+                );
+            })
+            .catch((err) => console.log(err));
+    }, [courseId]);
 
     function purchaseCourse() {
         axios
@@ -36,6 +55,7 @@ export default function CoursePage() {
             )
             .then((res) => {
                 alert(res.data.message);
+                setIsPurchased(true);
             })
             .catch((err) => console.log(err));
     }
@@ -57,14 +77,36 @@ export default function CoursePage() {
                             alt=""
                         />
                         <div className="course-card-content">
-                            <h1 className="course-price">${course.price}</h1>
-                            <Button
-                                onClick={purchaseCourse}
-                                variant="contained"
-                                className="buy-button"
-                            >
-                                Buy Now
-                            </Button>
+                            {!isPurchased ? (
+                                <>
+                                    <h1 className="course-price">
+                                        ${course.price}
+                                    </h1>
+                                    <Button
+                                        onClick={purchaseCourse}
+                                        variant="contained"
+                                        className="buy-button"
+                                    >
+                                        Buy Now
+                                    </Button>{" "}
+                                </>
+                            ) : (
+                                <>
+                                    <h1 className="course-price">
+                                        Already Purchased!
+                                    </h1>
+                                    <Button
+                                        onClick={() =>
+                                            navigate("/purchasedcourses")
+                                        }
+                                        variant="contained"
+                                        className="buy-button"
+                                    >
+                                        View Purchased Courses
+                                    </Button>{" "}
+                                </>
+                            )}
+
                             <CourseContent />
                         </div>
                     </div>

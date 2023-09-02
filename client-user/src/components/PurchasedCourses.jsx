@@ -3,10 +3,10 @@ import CourseCard from "./CourseCard";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import axios from "axios";
-import { coursesState } from "../store/atoms/user";
+import { purCoursesState } from "../store/atoms/user";
 
 export default function PurchasedCourses() {
-    const [courses, setCourses] = useRecoilState(coursesState);
+    const [purCourses, setPurCourses] = useRecoilState(purCoursesState);
 
     useEffect(() => {
         axios
@@ -16,7 +16,7 @@ export default function PurchasedCourses() {
                 },
             })
             .then((res) => {
-                setCourses(res.data.purchasedCourses);
+                setPurCourses(res.data.purchasedCourses);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -27,8 +27,8 @@ export default function PurchasedCourses() {
                 Purchased Courses
             </h1>
             <div className="courses-main-container">
-                {courses.length > 0
-                    ? courses.map((course) => (
+                {purCourses.length > 0
+                    ? purCourses.map((course) => (
                           <CourseCard
                               key={course._id}
                               course={course}

@@ -20,8 +20,11 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { atom, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { userState } from "../store/atoms/user";
+import jwt_decode from "jwt-decode";
+import { useEffect } from "react";
+import { openState } from "../store/atoms/user";
 
 const drawerWidth = 240;
 
@@ -70,11 +73,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     justifyContent: "flex-end",
 }));
 
-const openState = atom({
-    key: "openState",
-    default: false,
-});
-
 export default function ButtonAppBar() {
     const theme = useTheme();
     const [user, setUser] = useRecoilState(userState);
@@ -89,6 +87,37 @@ export default function ButtonAppBar() {
         setOpen(false);
     };
 
+    useEffect(() => {
+        init();
+    }, []);
+
+    async function init() {
+        const token = localStorage.getItem("token");
+
+        if (!token) return;
+        try {
+            const decodedToken = jwt_decode(token);
+            const currentTimestamp = Date.now() / 1000;
+
+            if (decodedToken.exp && currentTimestamp > decodedToken.exp) {
+                handleTokenExpiry();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    function handleTokenExpiry() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("email");
+        setUser({
+            email: "",
+            password: "",
+            IsLoggedIn: false,
+        });
+    }
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("isLoggedIn");
@@ -98,6 +127,7 @@ export default function ButtonAppBar() {
             password: "",
             IsLoggedIn: false,
         });
+        navigate("/");
     };
 
     return (
@@ -228,4 +258,4 @@ export default function ButtonAppBar() {
     );
 }
 
-export { Main, openState };
+export { Main };

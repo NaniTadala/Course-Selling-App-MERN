@@ -20,8 +20,11 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { atom, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { adminState } from "../store/atoms/admin";
+import { useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { openState } from "../store/atoms/admin";
 
 const drawerWidth = 240;
 
@@ -70,11 +73,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     justifyContent: "flex-end",
 }));
 
-const openState = atom({
-    key: "openState",
-    default: false,
-});
-
 export default function ButtonAppBar() {
     const theme = useTheme();
     const [admin, setAdmin] = useRecoilState(adminState);
@@ -89,6 +87,44 @@ export default function ButtonAppBar() {
         setOpen(false);
     };
 
+    useEffect(() => {
+        init();
+    }, []);
+
+    async function init() {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            // Handle the case where there's no token
+            return;
+        }
+
+        try {
+            const decodedToken = jwt_decode(token);
+            const currentTimestamp = Date.now() / 1000; // Get current timestamp in seconds
+
+            if (decodedToken.exp && currentTimestamp > decodedToken.exp) {
+                // Token has expired
+                handleTokenExpired();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    function handleTokenExpired() {
+        // Handle the case where the token has expired
+        localStorage.removeItem("token");
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("email");
+        setAdmin({
+            email: "",
+            password: "",
+            isLoggedIn: false,
+        });
+        console.log("Token has expired.");
+    }
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("isLoggedIn");
@@ -96,7 +132,7 @@ export default function ButtonAppBar() {
         setAdmin({
             email: "",
             password: "",
-            IsLoggedIn: false,
+            isLoggedIn: false,
         });
         navigate("/");
     };
@@ -229,4 +265,4 @@ export default function ButtonAppBar() {
     );
 }
 
-export { Main, openState };
+export { Main };

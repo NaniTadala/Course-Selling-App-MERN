@@ -2,9 +2,9 @@
 import Button from "@mui/material/Button";
 import "../styles.css";
 import { useNavigate } from "react-router-dom";
-import { Main, openState } from "./AppBar";
+import { Main } from "./AppBar";
 import { useRecoilValue } from "recoil";
-import { adminState } from "../store/atoms/admin";
+import { adminState, openState } from "../store/atoms/admin";
 
 export default function LandingPage() {
     const navigate = useNavigate();

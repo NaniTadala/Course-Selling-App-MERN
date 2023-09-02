@@ -1,12 +1,10 @@
 import "../styles.css";
 import CourseCard from "./CourseCard";
-import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { coursesState } from "../store/atoms/user";
 
 export default function ShowCourses() {
-    const [courses, setCourses] = useRecoilState(coursesState);
+    const [courses, setCourses] = useState([]);
 
     useEffect(() => {
         axios
