@@ -83,6 +83,11 @@ export default function ButtonAppBar() {
         setOpen(true);
     };
 
+    const handleDrawerOnNoLogin = () => {
+        alert("Please Login");
+        navigate("/login");
+    };
+
     const handleDrawerClose = () => {
         setOpen(false);
     };
@@ -138,7 +143,11 @@ export default function ButtonAppBar() {
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={user.isLoggedIn ? handleDrawerOpen : null}
+                        onClick={
+                            user.isLoggedIn
+                                ? handleDrawerOpen
+                                : handleDrawerOnNoLogin
+                        }
                         edge="start"
                         sx={{ mr: 2, ...(open && { display: "none" }) }}
                     >
@@ -158,7 +167,7 @@ export default function ButtonAppBar() {
                             noWrap
                             component="div"
                         >
-                            Coursera
+                            LearnUp
                         </Typography>
                         {user.isLoggedIn ? (
                             <div>

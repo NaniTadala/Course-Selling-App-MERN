@@ -28,8 +28,8 @@ export default function LandingPage() {
                 </div>
                 <img
                     className="dashboard-image"
-                    src="https://opensource.com/sites/default/files/lead-images/browser_web_internet_website.png"
-                    alt=""
+                    src="https://img.freepik.com/free-vector/programming-languages-learning-software-coding-courses-website-development-class-script-writing-it-programmers-cartoon-characters_335657-3454.jpg?w=826&t=st=1696132298~exp=1696132898~hmac=c704da4d7694e407152737781cf21f2bbaa51ac7c4f4a408ec91b668df80e9c3"
+                    alt="dashboard-image"
                 />
             </div>
         </Main>
